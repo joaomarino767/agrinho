@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root{
+    --cor-titulo:#3498db;
+    --subtitulo: #cccccc;
+
+    --escrita: "inter", sans-serif;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: var(--escrita);
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    background: linear-gradient(135deg, #2a2a2a 5%, #3498db 100%);
+}
+
+.titulo {
+    font-size: 38px;
+    font-weight: 900;
+    text-align: center;
+    padding: 2%;
+    color: var(--cor-titulo);
+}
+
+.subtitulo {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--subtitulo);
+    padding-bottom: 3%;
+}
+
+main {
+    background: linear-gradient(135deg, #1f1f1f 0%, #0f1f2e 100%);
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 700px;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.spnQtd {
+    text-align: end;
+}
+
+.answers {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 5px;
+    text-align: start;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color:var(--cor-titulo);
+    color: var(--subtitulo);
+}
+
+.finish {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.finish button {
+    text-align: center;
+}
+
+button.correct {
+    background-color: #2ecc71;
+    color: white;
+}
+
+button.wrong {
+    background-color: #e74c3c;
+    color: white;
+}
+
+button.disable {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+button.answer {
+    background-color: #3498db;
+    color: #fff;
+    transition: 0.3s;
+}
+
+button.answer:hover {
+    background-color: #2980b9;
+    transform: scale(1.03);
+    color: #f0f0f0;
+}
+
+button.answer:active {
+    background-color: #1f5c85;
+    transform: scale(0.97);
+}
+
+.botao:hover {
+    background-color: #5dade2;
+    transform: scale(1.05);
+}
+
+.botao:active {
+    transform: scale(0.90);
+}
+
+.question{
+    color: var(--subtitulo);
+}

@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root {
+    --cor-fundo: black;
+    --cor-escrita: #ffffff;
+    --cor-escrita-secundaria: #f1f1f1;
+    --botao-fundo: #3498db;
+    --borda-botao: #2980b9;
+
+
+    --escrita: "Inter", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--cor-fundo);
+    color: var(--cor-escrita);
+    font-family: "inter" sans-serif;
+}
+
+.container__introducao {
+    background-image: url("assets/gigapixel-campo\ 2.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    color: var(--cor-fundo);
+    display: flex;
+}
+
+.titulo {
+    text-align: center;
+    padding-top: 2%;
+    color: var(--cor-escrita);
+    text-shadow: 2px 2px 6px var(--cor-fundo);
+    font-size: 38px;
+}
+
+.destaque {
+    color: var(--cor-escrita);
+    text-shadow: 2px 2px 5px var(--cor-fundo);
+    font-size: 30px;
+    text-align: center;
+    padding-top: 3%;
+}
+
+.paragrafo {
+    display: flex;
+    padding-left: 55%;
+    padding-top: 8%;
+    padding-right: 8%;
+    line-height: 1.2;
+    font-weight: 700;
+    text-align: center;
+    flex-direction: column;
+    font-size: 26px;
+    color: var(--cor-escrita-secundaria);
+    text-shadow: 1px 1px 3px var(--cor-fundo);
+}
+
+.botao__mais {
+    padding-left: 55%;
+    padding-top: 3%;
+    display: flex;
+    gap: 20px;
+    padding-bottom: 4%;
+}
+
+.botao {
+    text-decoration: none;
+    color: var(--cor-escrita);
+    background-color: var(--botao-fundo);
+    border-radius: 8px;
+    padding: 2% 15%;
+    font-size: 28px;
+    border: solid 2px var(--borda-botao);
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.1s ease-out;
+    outline: none;
+}
+
+.botao:hover {
+    background-color: #5dade2;
+    border-color: #2e86c1;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.botao:active {
+    transform: scale(0.90);
+    background-color: #2471a3;
+    border-color: #1c639b;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
