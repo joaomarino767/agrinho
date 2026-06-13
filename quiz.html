@@ -4,26 +4,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz agrinho</title>
+    <title>Quiz Agrinho 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/quiz.css">
 </head>
 
 <body>
-    <h1 class="titulo">Conectando Saberes: Campo e Cidade em Harmonia</h1>
-    <p class="subtitulo"> Descubra quanto você sabe sobre a relação histórica e tecnológica entre o campo e a
-        cidade!</p>
-    <main>
-        <div class="content">
-            <span class="spnQtd"></span>
-            <span class="question"></span>
-            <div class="answers"></div>
+    <header class="site-header">
+        <div class="container header-content">
+            <a href="index.html" class="brand">Agrinho 2026</a>
+            <nav class="main-nav" aria-label="Menu principal">
+                <a href="index.html">Início</a>
+                <a href="historia.html">História</a>
+            </nav>
         </div>
-        <div class="finish">
-            <span></span>
-            <button class="botao">Reiniciar</button>
-        </div>
+    </header>
+
+    <main class="quiz-page">
+        <section class="quiz-hero">
+            <div class="container quiz-hero-grid">
+                <div>
+                    <p class="section-label">Quiz Interativo</p>
+                    <h1>Teste seu conhecimento sustentável</h1>
+                    <p>Responda perguntas sobre agro, tecnologia e preservação para ver seu desempenho.</p>
+                </div>
+                <div class="quiz-stats">
+                    <div>
+                        <strong>10</strong>
+                        <p>Perguntas</p>
+                    </div>
+                    <div>
+                        <strong>100%</strong>
+                        <p>Foco no futuro</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="quiz-card">
+            <div class="container quiz-content">
+                <div class="progress-bar quiz-progress">
+                    <div class="progress-step" id="progressStep"></div>
+                </div>
+                <div class="quiz-question">
+                    <span class="spnQtd"></span>
+                    <h2 class="question"></h2>
+                </div>
+                <div class="answers"></div>
+                <div class="explanation-card hidden" id="explanationCard">
+                    <div class="explanation-texture">
+                        <p class="explanation-status" id="explanationStatus"></p>
+                        <p class="explanation-message" id="explanationMessage"></p>
+                        <p class="explanation-curiosity" id="explanationCuriosity"></p>
+                    </div>
+                    <button class="button button-secondary" id="nextQuestionButton">Próxima pergunta</button>
+                </div>
+            </div>
+
+            <div class="quiz-finish finish">
+                <div class="finish-card">
+                    <span class="finish-text"></span>
+                    <p class="finish-detail"></p>
+                    <button class="button button-primary" id="restartButton">Reiniciar</button>
+                </div>
+            </div>
+        </section>
     </main>
-    <footer></footer>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <p>Quiz Agrinho 2026 • Tema: Agro forte, futuro sustentável</p>
+            <a href="index.html" class="button button-secondary">Voltar ao início</a>
+        </div>
+    </footer>
+
     <script src="script.js" type="module"></script>
 </body>
 
