@@ -191,16 +191,25 @@
                         <button id="calculate" class="button button-primary">Calcular resultados</button>
                     </div>
                     <div class="simulator-result">
-                        <div class="result-card">
-                            <h3>Sustentabilidade</h3>
+                        <div class="result-card" data-tooltip="Representa o nível de adoção de práticas sustentáveis, como economia de água, preservação ambiental e uso de energias renováveis.">
+                            <div class="result-card-head">
+                                <h3>Sustentabilidade</h3>
+                                <button class="info-icon" type="button" aria-label="Mais informações sobre sustentabilidade"></button>
+                            </div>
                             <span id="sustainabilityValue">0%</span>
                         </div>
-                        <div class="result-card">
-                            <h3>Produção</h3>
+                        <div class="result-card" data-tooltip="Representa o potencial produtivo da fazenda considerando tecnologias modernas e manejo eficiente dos recursos.">
+                            <div class="result-card-head">
+                                <h3>Produção</h3>
+                                <button class="info-icon" type="button" aria-label="Mais informações sobre produção"></button>
+                            </div>
                             <span id="productionValue">0%</span>
                         </div>
-                        <div class="result-card">
-                            <h3>Impacto ambiental</h3>
+                        <div class="result-card" data-tooltip="Mostra como as escolhas realizadas afetam o meio ambiente. Quanto menor o impacto, maior a preservação dos recursos naturais.">
+                            <div class="result-card-head">
+                                <h3>Impacto ambiental</h3>
+                                <button class="info-icon" type="button" aria-label="Mais informações sobre impacto ambiental"></button>
+                            </div>
                             <span id="impactValue">Alto</span>
                         </div>
                         <div class="progress-bar">
@@ -210,6 +219,7 @@
                     </div>
                 </div>
             </div>
+            <p class="simulator-disclaimer">Os resultados apresentados são estimativas educativas utilizadas para demonstrar a relação entre produtividade e sustentabilidade.</p>
         </section>
     </main>
 
