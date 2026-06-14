@@ -212,6 +212,78 @@ if (calculateButton) {
     calculateButton.addEventListener("click", calculateSimulator);
 }
 
+const tooltipButtons = document.querySelectorAll(".info-icon");
+const tooltipCards = document.querySelectorAll(".result-card");
+
+tooltipButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const card = button.closest(".result-card");
+        if (!card) return;
+        const isActive = card.classList.contains("active-tooltip");
+        tooltipCards.forEach((other) => {
+            other.classList.remove("active-tooltip");
+            const obtn = other.querySelector('.info-icon');
+            if (obtn) obtn.setAttribute('aria-expanded', 'false');
+        });
+        if (!isActive) {
+            card.classList.add("active-tooltip");
+            button.setAttribute('aria-expanded', 'true');
+        } else {
+            card.classList.remove("active-tooltip");
+            button.setAttribute('aria-expanded', 'false');
+        }
+    });
+});
+
+tooltipCards.forEach((card) => {
+    card.addEventListener('click', (event) => {
+        if (event.target.closest('.info-icon')) return;
+        const isActive = card.classList.contains('active-tooltip');
+        tooltipCards.forEach((other) => {
+            other.classList.remove('active-tooltip');
+            const obtn = other.querySelector('.info-icon');
+            if (obtn) obtn.setAttribute('aria-expanded', 'false');
+        });
+        if (!isActive) {
+            card.classList.add('active-tooltip');
+            const btn = card.querySelector('.info-icon');
+            if (btn) btn.setAttribute('aria-expanded', 'true');
+        }
+    });
+});
+
+document.addEventListener("click", (event) => {
+    if (!event.target.closest(".result-card")) {
+        tooltipCards.forEach((card) => {
+            card.classList.remove("active-tooltip");
+            const btn = card.querySelector('.info-icon');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+        });
+    }
+});
+
+// show tooltip on mouse hover (desktop) using pointer events
+tooltipCards.forEach((card) => {
+    card.addEventListener('pointerenter', (ev) => {
+        if (ev.pointerType && ev.pointerType !== 'mouse') return; // ignore touch
+        tooltipCards.forEach((other) => {
+            other.classList.remove('active-tooltip');
+            const obtn = other.querySelector('.info-icon');
+            if (obtn) obtn.setAttribute('aria-expanded', 'false');
+        });
+        card.classList.add('active-tooltip');
+        const btn = card.querySelector('.info-icon');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+    });
+    card.addEventListener('pointerleave', (ev) => {
+        if (ev.pointerType && ev.pointerType !== 'mouse') return;
+        card.classList.remove('active-tooltip');
+        const btn = card.querySelector('.info-icon');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+});
+
 if (questionElement && answersElement && spnQtd && progressStep) {
     loadQuestion();
 }
