@@ -207,6 +207,29 @@ a { color: inherit; text-decoration: none; }
 /* ── SEÇÃO CARDS ── */
 .section { padding: 3rem 0; }
 
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    visibility: hidden;
+    transition: opacity 1s ease, transform 1s ease;
+    will-change: opacity, transform;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        visibility: visible !important;
+    }
+}
+
 .section-cards-title {
     font-size: clamp(1.8rem, 2.5vw, 2.6rem);
     margin-bottom: 1.5rem;

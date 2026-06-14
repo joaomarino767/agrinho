@@ -287,3 +287,34 @@ tooltipCards.forEach((card) => {
 if (questionElement && answersElement && spnQtd && progressStep) {
     loadQuestion();
 }
+
+function initScrollReveal() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const revealTargets = document.querySelectorAll(
+        '.section-label, h1, h2, h3, p, img, .card, .feature-card, .parana-card, .stat-card, .hero-card, .hero-info div, .visual-card, .button, .result-card, .simulator-header, .simulator-options .option-card, .simulator-result, .footer-content, .quiz-hero, .quiz-card, .quiz-stats, .history-copy, .history-hero-img, .timeline-item, .timeline-content, .history-cards, .content-grid, .summary-grid article'
+    );
+
+    const observer = new IntersectionObserver(
+        (entries, obs) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    obs.unobserve(entry.target);
+                }
+            });
+        },
+        {
+            threshold: 0.16,
+            rootMargin: '0px 0px -10% 0px',
+        }
+    );
+
+    revealTargets.forEach((element) => {
+        element.classList.add('reveal');
+        observer.observe(element);
+    });
+}
+
+initScrollReveal();
