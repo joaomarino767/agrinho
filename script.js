@@ -56,6 +56,15 @@ function setResultMessage(score) {
     };
 }
 
+function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
 function endQuiz() {
     if (!quizContent || !finishSection || !finishText || !finishDetail) return;
     quizContent.style.display = "none";
@@ -89,12 +98,16 @@ function buildAnswers(item) {
     if (!answersElement) return;
     clearAnswers();
     hideExplanation();
-    item.answers.forEach((answer) => {
+    item.answers.forEach((answer, index) => {
         const button = document.createElement("button");
+        const rawOption = answer.Option.replace(/^[A-D]\)\s*/, "");
+        const label = String.fromCharCode(65 + index);
         button.className = "answer";
         button.type = "button";
-        button.textContent = answer.Option;
+        button.textContent = `${label}) ${rawOption}`;
         button.dataset.correct = answer.correct;
+        button.dataset.answerLabel = label;
+        button.dataset.answerText = rawOption;
         button.addEventListener("click", handleAnswerClick);
         answersElement.appendChild(button);
     });
@@ -115,16 +128,23 @@ function handleAnswerClick(event) {
         correctCount++;
         showExplanation(true, item.explanation, item.curiosity);
     } else {
-        showExplanation(false, `A resposta correta é ${item.answers.find((ans) => ans.correct).Option}. ${item.explanation}`, item.curiosity);
+        const correctButton = document.querySelector('.answer[data-correct="true"]');
+        const correctLabel = correctButton?.dataset.answerLabel || "A";
+        const correctText = correctButton?.dataset.answerText || item.answers.find((ans) => ans.correct).Option.replace(/^[A-D]\)\s*/, "");
+        showExplanation(false, `A resposta correta é ${correctLabel}) ${correctText}. ${item.explanation}`, item.curiosity);
     }
 }
 
 function loadQuestion() {
     if (!questionElement || !spnQtd) return;
     const item = questions[currentIndex];
+    const questionWithShuffledAnswers = {
+        ...item,
+        answers: shuffleArray(item.answers),
+    };
     spnQtd.textContent = `${currentIndex + 1}/${questions.length}`;
     questionElement.textContent = item.question;
-    buildAnswers(item);
+    buildAnswers(questionWithShuffledAnswers);
     updateProgress();
 }
 
