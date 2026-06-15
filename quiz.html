@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -12,6 +12,41 @@
 </head>
 
 <body>
+    <!-- Painel de acessibilidade -->
+    <div id="a11y-panel" class="a11y-panel" role="dialog" aria-label="Painel de acessibilidade" aria-hidden="true">
+        <div class="a11y-panel-inner">
+            <div class="a11y-panel-header">
+                <span class="a11y-panel-title">Acessibilidade</span>
+                <button class="a11y-close" id="a11yClose" aria-label="Fechar painel de acessibilidade">✕</button>
+            </div>
+
+            <div class="a11y-group">
+                <p class="a11y-group-label">Tamanho do texto</p>
+                <div class="a11y-row">
+                    <button class="a11y-btn" id="fontDecrease" type="button" aria-label="Diminuir texto">A−</button>
+                    <button class="a11y-btn a11y-btn--mid" id="fontReset" type="button" aria-label="Resetar tamanho do texto">A</button>
+                    <button class="a11y-btn a11y-btn--lg" id="fontIncrease" type="button" aria-label="Aumentar texto">A+</button>
+                </div>
+            </div>
+
+            <div class="a11y-group">
+                <p class="a11y-group-label">Aparência</p>
+                <button class="a11y-toggle-btn" id="themeToggle" type="button" aria-label="Alternar tema claro e escuro">
+                    <span class="a11y-toggle-icon" id="themeIcon">☀️</span>
+                    <span id="themeLabel">Tema claro</span>
+                </button>
+                <button class="a11y-toggle-btn" id="contrastToggle" type="button" aria-label="Ativar ou desativar alto contraste">
+                    <span class="a11y-toggle-icon">◐</span>
+                    <span>Alto contraste</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <button class="a11y-fab" id="a11yToggle" type="button" aria-label="Abrir configurações de acessibilidade" aria-expanded="false" aria-controls="a11y-panel">
+        ⚙️
+    </button>
+
     <header class="site-header">
         <div class="container header-content">
             <a href="index.html" class="brand">Agrinho 2026</a>
@@ -45,8 +80,10 @@
 
         <section class="quiz-card">
             <div class="container quiz-content">
-                <div class="progress-bar quiz-progress">
+                <div class="progress-bar quiz-progress" aria-label="Progresso do quiz">
                     <div class="progress-step" id="progressStep"></div>
+                    <span class="quiz-tractor" id="quizTractor" aria-hidden="true">🚜</span>
+                    <span class="quiz-goal" aria-hidden="true">🌱</span>
                 </div>
                 <div class="quiz-question">
                     <span class="spnQtd"></span>
@@ -67,7 +104,7 @@
                 <div class="finish-card">
                     <span class="finish-text"></span>
                     <p class="finish-detail"></p>
-                    <button class="button button-primary" id="restartButton">Reiniciar quiz</button>
+                    <button class="button button-primary" id="restartButton"><span aria-hidden="true">🔄</span> Refazer quiz</button>
                 </div>
             </div>
         </section>

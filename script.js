@@ -1,9 +1,99 @@
 ﻿import questions from "./questions.js";
 
+/* ── ACESSIBILIDADE: tema, contraste e tamanho do texto ── */
+const a11yFab = document.getElementById("a11yToggle");
+const a11yPanel = document.getElementById("a11y-panel");
+const a11yClose = document.getElementById("a11yClose");
+const themeToggle = document.getElementById("themeToggle");
+const themeLabel = document.getElementById("themeLabel");
+const themeIcon = document.getElementById("themeIcon");
+const contrastToggle = document.getElementById("contrastToggle");
+const fontIncrease = document.getElementById("fontIncrease");
+const fontDecrease = document.getElementById("fontDecrease");
+const fontReset = document.getElementById("fontReset");
+const rootElement = document.documentElement;
+
+function applyTheme(theme) {
+    rootElement.setAttribute("data-theme", theme);
+    localStorage.setItem("agrinho-theme", theme);
+    if (themeLabel) themeLabel.textContent = theme === "light" ? "Tema escuro" : "Tema claro";
+    if (themeIcon) themeIcon.textContent = theme === "light" ? "🌙" : "☀️";
+}
+
+function applyContrast(enabled) {
+    rootElement.setAttribute("data-contrast", enabled ? "high" : "normal");
+    localStorage.setItem("agrinho-contrast", enabled ? "1" : "0");
+    if (contrastToggle) contrastToggle.classList.toggle("active", enabled);
+}
+
+let fontStep = Number(localStorage.getItem("agrinho-font-step") || "0");
+
+function applyFontSize(step) {
+    fontStep = Math.max(-1, Math.min(3, step));
+    const sizes = {
+        "-1": "15px",
+        "0": "16px",
+        "1": "17px",
+        "2": "18px",
+        "3": "20px"
+    };
+    rootElement.style.fontSize = sizes[String(fontStep)] || "16px";
+    localStorage.setItem("agrinho-font-step", String(fontStep));
+}
+
+applyTheme(localStorage.getItem("agrinho-theme") || "dark");
+applyContrast(localStorage.getItem("agrinho-contrast") === "1");
+applyFontSize(fontStep);
+
+themeToggle?.addEventListener("click", () => {
+    const current = rootElement.getAttribute("data-theme") || "dark";
+    applyTheme(current === "dark" ? "light" : "dark");
+});
+
+contrastToggle?.addEventListener("click", () => {
+    const isHigh = rootElement.getAttribute("data-contrast") === "high";
+    applyContrast(!isHigh);
+});
+
+fontIncrease?.addEventListener("click", () => applyFontSize(fontStep + 1));
+fontDecrease?.addEventListener("click", () => applyFontSize(fontStep - 1));
+fontReset?.addEventListener("click", () => applyFontSize(0));
+
+function openA11yPanel() {
+    a11yPanel?.classList.add("open");
+    a11yPanel?.setAttribute("aria-hidden", "false");
+    a11yFab?.setAttribute("aria-expanded", "true");
+}
+
+function closeA11yPanel() {
+    a11yPanel?.classList.remove("open");
+    a11yPanel?.setAttribute("aria-hidden", "true");
+    a11yFab?.setAttribute("aria-expanded", "false");
+}
+
+a11yFab?.addEventListener("click", () => {
+    if (a11yPanel?.classList.contains("open")) {
+        closeA11yPanel();
+    } else {
+        openA11yPanel();
+    }
+});
+
+a11yClose?.addEventListener("click", closeA11yPanel);
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && a11yPanel?.classList.contains("open")) {
+        closeA11yPanel();
+    }
+});
+
+
+
 const questionElement = document.querySelector(".question");
 const answersElement = document.querySelector(".answers");
 const spnQtd = document.querySelector(".spnQtd");
 const progressStep = document.getElementById("progressStep");
+const quizTractor = document.getElementById("quizTractor");
 const finishSection = document.querySelector(".quiz-finish");
 const finishText = document.querySelector(".finish-text");
 const finishDetail = document.querySelector(".finish-detail");
@@ -32,16 +122,22 @@ let currentIndex = 0;
 let correctCount = 0;
 
 function updateProgress() {
-    if (!progressStep) return;
     const percent = ((currentIndex + 1) / questions.length) * 100;
-    progressStep.style.width = `${percent}%`;
+    if (progressStep) progressStep.style.width = `${percent}%`;
+    if (quizTractor) quizTractor.style.left = `${percent}%`;
 }
 
 function setResultMessage(score) {
     if (score === questions.length) {
         return {
-            title: "Excelente!",
-            detail: "Você domina os conceitos de agro sustentável e inovação no campo."
+            title: "🏆 Mestre do Agro Sustentável!",
+            detail: "Você acertou tudo e demonstrou excelente domínio sobre sustentabilidade, tecnologia e preservação ambiental."
+        };
+    }
+    if (score >= 9) {
+        return {
+            title: "🌱 Resultado excelente!",
+            detail: "Você quase gabaritou o quiz e mostrou ótimo conhecimento sobre o agro sustentável."
         };
     }
     if (score >= 7) {
@@ -71,13 +167,38 @@ function shuffleArray(array) {
     return shuffled;
 }
 
+function clearQuizConfetti() {
+    document.querySelectorAll(".quiz-confetti").forEach((particle) => particle.remove());
+}
+
+function launchQuizConfetti() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    clearQuizConfetti();
+    const colors = ["#78c35f", "#b7d99b", "#f7d85a", "#ffffff"];
+    for (let i = 0; i < 42; i++) {
+        const particle = document.createElement("span");
+        particle.className = "quiz-confetti";
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.setProperty("--x", `${(Math.random() - 0.5) * 280}px`);
+        particle.style.setProperty("--r", `${Math.random() * 540}deg`);
+        particle.style.setProperty("--delay", `${Math.random() * 0.25}s`);
+        particle.style.setProperty("--color", colors[Math.floor(Math.random() * colors.length)]);
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 3200);
+    }
+}
+
 function endQuiz() {
     if (!quizContent || !finishSection || !finishText || !finishDetail) return;
     quizContent.style.display = "none";
     finishSection.style.display = "grid";
+    finishSection.classList.toggle("finish-celebration", correctCount >= 9);
+    if (progressStep) progressStep.style.width = "100%";
+    if (quizTractor) quizTractor.style.left = "100%";
     const result = setResultMessage(correctCount);
     finishText.textContent = `${result.title} Você acertou ${correctCount} de ${questions.length}.`;
     finishDetail.textContent = result.detail;
+    if (correctCount >= 9) launchQuizConfetti();
 }
 
 function clearAnswers() {
@@ -158,6 +279,8 @@ function restartQuiz() {
     if (!quizContent || !finishSection) return;
     currentIndex = 0;
     correctCount = 0;
+    clearQuizConfetti();
+    finishSection.classList.remove("finish-celebration");
     hideExplanation();
     quizContent.style.display = "grid";
     finishSection.style.display = "none";
@@ -392,42 +515,8 @@ simulatorCheckboxes.forEach((checkbox) => {
 
 calculateSimulator();
 
-// Keep simulator-result visually aligned with left options
-function syncResultPanelHeight() {
-    const left = document.querySelector('.simulator-options');
-    const right = document.querySelector('.simulator-result');
-    if (!left || !right) return;
+// Painel do simulador usa CSS sticky; sem cálculo de altura via JS para evitar cortes e barras internas.
 
-    // compute positions relative to the page so we can align bottoms
-    const leftRect = left.getBoundingClientRect();
-    const rightRect = right.getBoundingClientRect();
-    const leftPageTop = leftRect.top + window.scrollY;
-    const leftPageBottom = leftPageTop + left.offsetHeight;
-    const rightPageTop = rightRect.top + window.scrollY;
-
-    // desired max height so right bottom aligns with left bottom (minus small breathing room)
-    let desiredMax = Math.floor(leftPageBottom - rightPageTop - 12);
-    // floor and sanity clamps
-    const minHeight = 200;
-    if (desiredMax < minHeight) desiredMax = Math.max(minHeight, left.offsetHeight - 16);
-
-    right.style.maxHeight = desiredMax + 'px';
-}
-
-// Observe size changes and window resize/scroll
-const roLeft = new ResizeObserver(() => {
-    syncResultPanelHeight();
-});
-const leftCol = document.querySelector('.simulator-options');
-if (leftCol) roLeft.observe(leftCol);
-window.addEventListener('resize', syncResultPanelHeight);
-window.addEventListener('load', syncResultPanelHeight);
-window.addEventListener('scroll', () => {
-    // minor throttle
-    requestAnimationFrame(syncResultPanelHeight);
-});
-
-// parana-card mouse-follow removed: no JS needed for hover highlight
 
 const tooltipButtons = document.querySelectorAll(".info-icon");
 const tooltipCards = document.querySelectorAll(".result-card");
