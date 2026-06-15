@@ -244,35 +244,106 @@
                 </div>
                 <div class="simulator-grid">
                     <div class="simulator-options">
-                        <label class="option-card">
+                        <label class="option-card" for="solar">
                             <input type="checkbox" id="solar" name="simulator" value="solar">
+                            <span class="option-check" aria-hidden="true"></span>
                             <div>
-                                <h3>☀️ Energia solar</h3>
-                                <p>Painéis solares geram energia limpa para bombas d'água, iluminação e máquinas, reduzindo o uso de diesel e a conta de luz da propriedade.</p>
+                                <h3>🌞 Energia solar com alto investimento inicial</h3>
+                                <p>Reduz gastos de energia e emissões no longo prazo, mas exige investimento inicial alto e manutenção técnica.</p>
                             </div>
                         </label>
-                        <label class="option-card">
+                        <label class="option-card" for="irrigation">
                             <input type="checkbox" id="irrigation" name="simulator" value="irrigation">
+                            <span class="option-check" aria-hidden="true"></span>
                             <div>
-                                <h3>💧 Irrigação inteligente</h3>
-                                <p>Sensores monitoram a umidade do solo e liberam água apenas quando necessário, economizando até 50% do consumo em relação à irrigação convencional.</p>
+                                <h3>💧 Irrigação inteligente por sensores</h3>
+                                <p>Economiza água e melhora a produtividade, mas depende de sensores, internet e manutenção constante.</p>
                             </div>
                         </label>
-                        <label class="option-card">
-                            <input type="checkbox" id="planting" name="simulator" value="planting">
+                        <label class="option-card" for="rotation">
+                            <input type="checkbox" id="rotation" name="simulator" value="rotation">
+                            <span class="option-check" aria-hidden="true"></span>
                             <div>
-                                <h3>🌱 Plantio sustentável</h3>
-                                <p>A rotação de culturas e o plantio direto protegem o solo, aumentam a matéria orgânica e reduzem a necessidade de fertilizantes sintéticos ao longo do tempo.</p>
+                                <h3>🌱 Rotação de culturas planejada</h3>
+                                <p>Melhora o solo e reduz pragas, mas exige planejamento e pode diminuir o lucro imediato de algumas safras.</p>
                             </div>
                         </label>
-                        <label class="option-card">
-                            <input type="checkbox" id="preservation" name="simulator" value="preservation">
+                        <label class="option-card" for="precision">
+                            <input type="checkbox" id="precision" name="simulator" value="precision">
+                            <span class="option-check" aria-hidden="true"></span>
                             <div>
-                                <h3>🌳 Preservação de nascentes</h3>
-                                <p>Manter a vegetação nativa ao redor das nascentes e matas ciliares garante a qualidade da água, protege a biodiversidade e previne a erosão do solo.</p>
+                                <h3>🚜 Agricultura de precisão</h3>
+                                <p>Aumenta a eficiência e reduz desperdícios, mas possui alto custo de implantação para pequenos produtores.</p>
                             </div>
                         </label>
-                        <button id="calculate" class="button button-primary">Calcular resultados</button>
+                        <label class="option-card" for="reserve">
+                            <input type="checkbox" id="reserve" name="simulator" value="reserve">
+                            <span class="option-check" aria-hidden="true"></span>
+                            <div>
+                                <h3>🌳 Reserva ambiental ampliada</h3>
+                                <p>Protege nascentes, biodiversidade e solo, mas reduz a área disponível para produção no curto prazo.</p>
+                            </div>
+                        </label>
+                        <label class="option-card" for="fertilizers">
+                            <input type="checkbox" id="fertilizers" name="simulator" value="fertilizers">
+                            <span class="option-check" aria-hidden="true"></span>
+                            <div>
+                                <h3>🧪 Fertilizantes químicos controlados</h3>
+                                <p>Podem aumentar a produtividade quando usados corretamente, mas o uso excessivo prejudica o solo e a água.</p>
+                            </div>
+                        </label>
+                        <label class="option-card" for="monoculture">
+                            <input type="checkbox" id="monoculture" name="simulator" value="monoculture">
+                            <span class="option-check" aria-hidden="true"></span>
+                            <div>
+                                <h3>🌾 Monocultura tecnificada</h3>
+                                <p>Facilita o manejo e aumenta a produção em larga escala, mas aumenta riscos de pragas e perda de biodiversidade.</p>
+                            </div>
+                        </label>
+                        <label class="option-card" for="compensation">
+                            <input type="checkbox" id="compensation" name="simulator" value="compensation">
+                            <span class="option-check" aria-hidden="true"></span>
+                            <div>
+                                <h3>🌲 Expansão produtiva com compensação ambiental</h3>
+                                <p>Aumenta a área de produção, mas exige recuperação ambiental em outra parte da propriedade para equilibrar impactos.</p>
+                            </div>
+                        </label>
+                        <label class="option-card" for="drought">
+                            <input type="checkbox" id="drought" name="simulator" value="drought">
+                            <span class="option-check" aria-hidden="true"></span>
+                            <div>
+                                <h3>💦 Irrigação convencional em período de seca</h3>
+                                <p>Pode salvar a lavoura em momentos críticos, mas consome muita água se não houver controle adequado.</p>
+                            </div>
+                        </label>
+                        <label class="option-card" for="biocontrol">
+                            <input type="checkbox" id="biocontrol" name="simulator" value="biocontrol">
+                            <span class="option-check" aria-hidden="true"></span>
+                            <div>
+                                <h3>🐞 Controle biológico de pragas</h3>
+                                <p>Reduz o uso de pesticidas, mas pode ter resposta mais lenta e exigir acompanhamento técnico.</p>
+                            </div>
+                        </label>
+                        <label class="option-card" for="ilp">
+                            <input type="checkbox" id="ilp" name="simulator" value="ilp">
+                            <span class="option-check" aria-hidden="true"></span>
+                            <div>
+                                <h3>🐄 Integração lavoura-pecuária</h3>
+                                <p>Aumenta a renda e aproveita melhor a área, mas exige manejo correto para evitar compactação do solo.</p>
+                            </div>
+                        </label>
+                        <label class="option-card" for="recovery">
+                            <input type="checkbox" id="recovery" name="simulator" value="recovery">
+                            <span class="option-check" aria-hidden="true"></span>
+                            <div>
+                                <h3>🌿 Recuperação de áreas degradadas</h3>
+                                <p>Melhora o solo e a biodiversidade, mas reduz a produção temporariamente e exige investimento.</p>
+                            </div>
+                        </label>
+                        <button id="resetSimulator" type="button" class="button button-primary">
+                            <span class="reset-icon">🔄</span>
+                            Reiniciar Simulação
+                        </button>
                     </div>
                     <div class="simulator-result">
                         <div class="result-card" data-tooltip="Essa porcentagem mostra o quanto a fazenda utiliza práticas sustentáveis, como economia de água, energia limpa e preservação ambiental. Quanto maior o índice, mais responsável é a gestão da propriedade.">
@@ -282,22 +353,33 @@
                             </div>
                             <span id="sustainabilityValue">0%</span>
                         </div>
-                        <div class="result-card" data-tooltip="Essa porcentagem representa o potencial produtivo da fazenda com base nas escolhas feitas. Práticas sustentáveis melhoram a qualidade do solo e da água, o que se traduz em colheitas mais consistentes e lucrativas.">
+                        <div class="result-card" data-tooltip="Essa porcentagem representa o potencial produtivo da fazenda com base nas escolhas feitas. Práticas sustentáveis podem reduzir ganhos de curto prazo, enquanto práticas tecnológicas aumentam produção.">
                             <div class="result-card-head">
                                 <h3>Produção</h3>
                                 <button class="info-icon" type="button" aria-label="Mais informações sobre produção" aria-expanded="false"></button>
                             </div>
                             <span id="productionValue">0%</span>
                         </div>
-                        <div class="result-card" data-tooltip="Esse indicador mostra o nível de impacto ambiental das escolhas feitas. Quanto menor o impacto, melhor para a preservação dos recursos naturais, como solo, água e biodiversidade.">
+                        <div class="result-card" data-tooltip="Esse indicador mostra o nível de impacto ambiental das escolhas feitas. Práticas mais intensivas tendem a elevar o impacto, enquanto escolhas equilibradas o reduzem.">
                             <div class="result-card-head">
                                 <h3>Impacto ambiental</h3>
                                 <button class="info-icon" type="button" aria-label="Mais informações sobre impacto ambiental" aria-expanded="false"></button>
                             </div>
                             <span id="impactValue">Alto</span>
                         </div>
+                        <div class="result-card" data-tooltip="Mostra o custo inicial estimado das escolhas feitas. Mais inovação e recuperação ambiental aumentam o investimento necessário." aria-label="Custo inicial estimado">
+                            <div class="result-card-head">
+                                <h3>Custo inicial</h3>
+                                <button class="info-icon" type="button" aria-label="Mais informações sobre custo inicial" aria-expanded="false"></button>
+                            </div>
+                            <span id="costInitialValue">Baixo</span>
+                        </div>
                         <div class="progress-bar">
                             <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="profile-summary">
+                            <h3 id="resultProfileTitle">Perfil do produtor</h3>
+                            <p id="resultProfileDescription">Escolha várias práticas e clique em "Calcular resultados" para ver seu perfil de gerenciamento da fazenda.</p>
                         </div>
                         <p class="result-note" id="resultNote">Selecione práticas sustentáveis acima e clique em "Calcular resultados" para ver o impacto das suas escolhas.</p>
                     </div>

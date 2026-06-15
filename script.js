@@ -15,11 +15,17 @@ const explanationMessage = document.getElementById("explanationMessage");
 const explanationCuriosity = document.getElementById("explanationCuriosity");
 const quizContent = document.querySelector(".quiz-content");
 
-const calculateButton = document.getElementById("calculate");
+const resetSimulatorButton = document.getElementById("resetSimulator");
 const sustainabilityValue = document.getElementById("sustainabilityValue");
 const productionValue = document.getElementById("productionValue");
 const impactValue = document.getElementById("impactValue");
+const costInitialValue = document.getElementById("costInitialValue");
 const progressFill = document.getElementById("progressFill");
+const resultProfileTitle = document.getElementById("resultProfileTitle");
+const resultProfileDescription = document.getElementById("resultProfileDescription");
+const profileSummary = document.querySelector(".profile-summary");
+const simulatorResultPanel = document.querySelector(".simulator-result");
+const simulatorOptionsContainer = document.querySelector(".simulator-options");
 const resultNote = document.getElementById("resultNote");
 
 let currentIndex = 0;
@@ -175,62 +181,253 @@ if (restartButton) {
     restartButton.addEventListener("click", restartQuiz);
 }
 
+function getImpactLabel(value) {
+    if (value <= 35) return "Baixo";
+    if (value <= 55) return "Médio";
+    if (value <= 75) return "Alto";
+    return "Crítico";
+}
+
+function getCostLabel(value) {
+    if (value <= 12) return "Baixo";
+    if (value <= 22) return "Médio";
+    return "Alto";
+}
+
+function getProducerProfile(production, sustainability, impact, cost) {
+    if (cost > 22 && production >= 65 && sustainability >= 60 && impact <= 45) {
+        return {
+            title: "🔵 Produtor Tecnológico de Alto Custo",
+            description: "Você investe em inovação com bons resultados, mas o custo inicial alto mostra que esse modelo exige capital e planejamento para ser sustentável no longo prazo."
+        };
+    }
+    if (sustainability >= 70 && impact <= 45 && production >= 45 && cost <= 20) {
+        return {
+            title: "🟢 Produtor Sustentável Estratégico",
+            description: "Seu foco está no equilíbrio: sustentabilidade forte, impacto controlado e produção estável. Esse é o caminho mais defensável para um futuro agro responsável."
+        };
+    }
+    if (production >= 70 && sustainability <= 55 && impact >= 55) {
+        return {
+            title: "🟠 Produtor Produtivista",
+            description: "A produção está em destaque, mas o impacto ambiental elevado e a sustentabilidade limitada mostram que ainda há risco para o longo prazo."
+        };
+    }
+    if (impact >= 70 || sustainability <= 35) {
+        return {
+            title: "🔴 Produtor de Alto Impacto",
+            description: "As escolhas favorecem ganhos de curto prazo, mas o impacto ambiental alto e a baixa sustentabilidade alertam para um modelo que precisa ser repensado."
+        };
+    }
+    return {
+        title: "🟡 Produtor em Transição",
+        description: "Você está tomando boas decisões, mas algumas escolhas ainda podem ser ajustadas para melhorar o equilíbrio entre produção, custo e impacto ambiental."
+    };
+}
+
+function updateOptionCardSelection() {
+    const checkboxes = document.querySelectorAll(".simulator-options input[type='checkbox']");
+    checkboxes.forEach((checkbox) => {
+        const card = checkbox.closest(".option-card");
+        if (!card) return;
+        if (checkbox.checked) {
+            card.classList.add("selected");
+        } else {
+            card.classList.remove("selected");
+        }
+    });
+}
+
 function calculateSimulator() {
+    updateOptionCardSelection();
     const solar = document.getElementById("solar")?.checked;
     const irrigation = document.getElementById("irrigation")?.checked;
-    const planting = document.getElementById("planting")?.checked;
-    const preservation = document.getElementById("preservation")?.checked;
+    const rotation = document.getElementById("rotation")?.checked;
+    const precision = document.getElementById("precision")?.checked;
+    const reserve = document.getElementById("reserve")?.checked;
+    const fertilizers = document.getElementById("fertilizers")?.checked;
+    const monoculture = document.getElementById("monoculture")?.checked;
+    const compensation = document.getElementById("compensation")?.checked;
+    const drought = document.getElementById("drought")?.checked;
+    const biocontrol = document.getElementById("biocontrol")?.checked;
+    const ilp = document.getElementById("ilp")?.checked;
+    const recovery = document.getElementById("recovery")?.checked;
 
-    let sustainability = 10;
-    let production = 45;
-    let impact = 72;
+    let sustainability = 30;
+    let production = 48;
+    let impact = 50;
+    let cost = 9;
 
     if (solar) {
-        sustainability += 20;
-        production += 8;
-        impact -= 16;
+        sustainability += 16;
+        production += 5;
+        impact -= 11;
+        cost += 3;
     }
     if (irrigation) {
+        sustainability += 8;
+        production += 14;
+        impact -= 13;
+        cost += 2;
+    }
+    if (rotation) {
         sustainability += 18;
-        production += 10;
-        impact -= 20;
+        production -= 4;
+        impact -= 9;
+        cost += 1;
     }
-    if (planting) {
-        sustainability += 16;
+    if (precision) {
+        sustainability += 10;
+        production += 16;
+        impact -= 12;
+        cost += 3;
+    }
+    if (reserve) {
+        sustainability += 20;
+        production -= 8;
+        impact -= 15;
+        cost += 1;
+    }
+    if (fertilizers) {
+        sustainability -= 6;
         production += 12;
-        impact -= 18;
+        impact += 14;
+        cost += 1;
     }
-    if (preservation) {
-        sustainability += 22;
+    if (monoculture) {
+        sustainability -= 16;
+        production += 18;
+        impact += 18;
+        cost += 1;
+    }
+    if (compensation) {
+        sustainability += 10;
         production += 6;
-        impact -= 25;
+        impact -= 7;
+        cost += 2;
+    }
+    if (drought) {
+        sustainability -= 6;
+        production += 10;
+        impact += 14;
+        cost += 1;
+    }
+    if (biocontrol) {
+        sustainability += 12;
+        production += 2;
+        impact -= 10;
+        cost += 1;
+    }
+    if (ilp) {
+        sustainability += 14;
+        production += 8;
+        impact -= 8;
+        cost += 2;
+    }
+    if (recovery) {
+        sustainability += 18;
+        production -= 10;
+        impact -= 12;
+        cost += 2;
     }
 
-    sustainability = Math.min(100, sustainability);
-    production = Math.min(100, production);
-    impact = Math.max(10, impact);
+    sustainability = Math.min(100, Math.max(0, Math.round(sustainability)));
+    production = Math.min(100, Math.max(0, Math.round(production)));
+    impact = Math.min(100, Math.max(0, Math.round(impact)));
+    cost = Math.max(0, Math.round(cost));
+
+    const impactLabel = getImpactLabel(impact);
+    const costLabel = getCostLabel(cost);
+    const profile = getProducerProfile(production, sustainability, impact, cost);
 
     if (sustainabilityValue) sustainabilityValue.textContent = `${sustainability}%`;
     if (productionValue) productionValue.textContent = `${production}%`;
+    if (impactValue) impactValue.textContent = impactLabel;
+    if (costInitialValue) costInitialValue.textContent = costLabel;
     if (progressFill) progressFill.style.width = `${sustainability}%`;
+    if (resultProfileTitle) resultProfileTitle.textContent = profile.title;
+    if (resultProfileDescription) resultProfileDescription.textContent = profile.description;
 
-    if (impactValue && resultNote) {
-        if (impact <= 30) {
-            impactValue.textContent = "Baixo";
-            resultNote.textContent = "Seu projeto está alinhado com o futuro sustentável.";
-        } else if (impact <= 55) {
-            impactValue.textContent = "Médio";
-            resultNote.textContent = "Existem boas escolhas, mas ainda há espaço para melhoria.";
+    if (resultNote) {
+        if (costLabel === "Alto") {
+            resultNote.textContent = "O custo inicial ficou alto. Pense em combinar opções para encontrar o melhor equilíbrio entre produção, sustentabilidade e impacto.";
+        } else if (impactLabel === "Crítico" || impactLabel === "Alto") {
+            resultNote.textContent = "Seu modelo ainda apresenta alto impacto ambiental. Busque reduzir o uso intensivo e equilibrar com práticas regenerativas.";
         } else {
-            impactValue.textContent = "Alto";
-            resultNote.textContent = "Inclua mais práticas verdes para reduzir o impacto.";
+            resultNote.textContent = "Boas escolhas! Observe o equilíbrio entre produção, sustentabilidade e custo para manter seu plano viável.";
         }
     }
 }
 
-if (calculateButton) {
-    calculateButton.addEventListener("click", calculateSimulator);
+function resetSimulator() {
+    const checkboxes = document.querySelectorAll(".simulator-options input[type='checkbox']");
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = false;
+        const card = checkbox.closest(".option-card");
+        if (card) card.classList.remove("selected");
+    });
+
+    if (resultProfileTitle) resultProfileTitle.textContent = "Pronto para jogar";
+    if (resultProfileDescription) resultProfileDescription.textContent = "Selecione até 5 escolhas para montar sua estratégia sustentável e veja o perfil do produtor.";
+    if (sustainabilityValue) sustainabilityValue.textContent = "30%";
+    if (productionValue) productionValue.textContent = "48%";
+    if (impactValue) impactValue.textContent = "Moderado";
+    if (costInitialValue) costInitialValue.textContent = "Médio";
+    if (progressFill) progressFill.style.width = "30%";
+    if (resultNote) resultNote.textContent = "Comece escolhendo práticas que equilibrem produção, impacto e custo.";
 }
+
+if (resetSimulatorButton) {
+    resetSimulatorButton.addEventListener("click", () => {
+        resetSimulator();
+        calculateSimulator();
+        window.scrollTo({ top: simulatorOptionsContainer?.offsetTop || 0, behavior: "smooth" });
+    });
+}
+
+const simulatorCheckboxes = document.querySelectorAll(".simulator-options input[type='checkbox']");
+simulatorCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", calculateSimulator);
+});
+
+calculateSimulator();
+
+// Keep simulator-result visually aligned with left options
+function syncResultPanelHeight() {
+    const left = document.querySelector('.simulator-options');
+    const right = document.querySelector('.simulator-result');
+    if (!left || !right) return;
+
+    // compute positions relative to the page so we can align bottoms
+    const leftRect = left.getBoundingClientRect();
+    const rightRect = right.getBoundingClientRect();
+    const leftPageTop = leftRect.top + window.scrollY;
+    const leftPageBottom = leftPageTop + left.offsetHeight;
+    const rightPageTop = rightRect.top + window.scrollY;
+
+    // desired max height so right bottom aligns with left bottom (minus small breathing room)
+    let desiredMax = Math.floor(leftPageBottom - rightPageTop - 12);
+    // floor and sanity clamps
+    const minHeight = 200;
+    if (desiredMax < minHeight) desiredMax = Math.max(minHeight, left.offsetHeight - 16);
+
+    right.style.maxHeight = desiredMax + 'px';
+}
+
+// Observe size changes and window resize/scroll
+const roLeft = new ResizeObserver(() => {
+    syncResultPanelHeight();
+});
+const leftCol = document.querySelector('.simulator-options');
+if (leftCol) roLeft.observe(leftCol);
+window.addEventListener('resize', syncResultPanelHeight);
+window.addEventListener('load', syncResultPanelHeight);
+window.addEventListener('scroll', () => {
+    // minor throttle
+    requestAnimationFrame(syncResultPanelHeight);
+});
+
+// parana-card mouse-follow removed: no JS needed for hover highlight
 
 const tooltipButtons = document.querySelectorAll(".info-icon");
 const tooltipCards = document.querySelectorAll(".result-card");
